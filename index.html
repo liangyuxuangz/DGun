@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- <link rel="stylesheet" href="./index_css.css" type="text/css"> -->
+</head>
+
+<body>
+    <div id="app">
+        <el-button type="primary" @click="getresult">计算</el-button>
+        <span>{{result}}</span>
+        <br>
+        <span>{{list}}</span>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script language="JAVASCRIPT" src="fun.js"></script>
+<script>
+    vm = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                result: "ABC",
+                list:""
+            }
+        },
+        methods: {
+            getresult: function () {
+                this.result = "start";
+                this.list = new Array();
+                for (var i = 0; i < 6; i++) {
+                    //this.list.push(Math.random()*160);
+                    do {
+                        tmp = Math.random() * 160;
+                        tmp = Math.round(tmp);
+                    } while (!this.list.indexOf(tmp));
+                    this.list.push(tmp);
+                }
+                console.log(this.list);
+                indexnum = ["0", "1", "2", "3", "4", "5"]
+                indexnumlist = getGroup(indexnum);
+                console.log(indexnumlist);
+                len = indexnumlist.length;
+                console.log(len);
+                countlist = new Array();
+                for (var i = 0; i < len; i++) {
+                    tmp = indexnumlist[i];
+                    strcnt = tmp.length;
+                    count = 0;
+                    for (var j = 0; j < strcnt; j++) {
+                        k = Number(tmp.slice(j, j + 1));
+                        count = count + this.list[k];
+                    }
+                    countlist.push(count);
+                    console.log(count);
+                }
+                console.log(countlist);
+                countlist.sort(sortNumber);
+                console.log(countlist);
+                gap = 100;
+                for (var i = 0; i < len-1; i++) {
+                    diff=countlist[i+1]-countlist[i];
+                    console.log(diff);
+                    if (diff<gap){
+                        this.result="不成功";
+                        //break;
+                    }
+                }
+            }
+        }
+
+    });
+</script>
+<style>
+</style>
+
+</html>
+
+<!-- 121, 19, 141, 124, 56, 47 -->
+<!-- [ 117, 108, 33, 143, 142, 65 ] -->
+<!-- [ 40, 150, 159, 72, 21, 126 ] -->
